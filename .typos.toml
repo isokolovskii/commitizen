@@ -1,0 +1,26 @@
+[files]
+extend-exclude = [
+  "go.mod",
+  "go.sum"
+]
+ignore-hidden = true
+ignore-files = true
+ignore-dot = true
+ignore-vcs = true
+ignore-global = true
+ignore-parent = true
+
+[default]
+binary = false
+check-filename = true
+check-file = true
+unicode = true
+locale = "en"
+extend-ignore-re = []
+extend-ignore-identifiers-re = []
+
+[default.extend-words]
+# <typo> = "<correction>"
+
+[default.extend-identifiers]
+# <typo> = "<correction>"

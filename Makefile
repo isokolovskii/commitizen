@@ -1,4 +1,4 @@
-OMMIT_HASH = $(shell git rev-parse HEAD)
+COMMIT_HASH = $(shell git rev-parse HEAD)
 
 .PHONY: build
 build:

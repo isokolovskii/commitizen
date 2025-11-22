@@ -9,7 +9,7 @@ import (
 func Lefthook() *cli.Command {
 	return &cli.Command{
 		Name:                  "commitizen",
-		Usage:                 "Conventional Commits promt generator",
+		Usage:                 "Conventional Commits prompt generator",
 		Version:               ver.Version(),
 		Commands:              commands,
 		EnableShellCompletion: true,

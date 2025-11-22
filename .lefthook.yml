@@ -32,9 +32,13 @@ pre-commit:
         jobs:
           - name: tidy
             run: go mod tidy
+            glob:
+              - go.mod
+              - go.sum
             stage_fixed: true
           - name: lint & format
             run: golangci-lint run ./...
+            glob: "*.go"
             stage_fixed: true
           - name: format markdown
             glob: "*md"

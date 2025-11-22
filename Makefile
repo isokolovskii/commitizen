@@ -51,5 +51,5 @@ version:
 	git add internal/version/version.go README.md CHANGELOG.md; \
 	git commit -m "chore(release): $$version"; \
 	git tag "$$version"; \
-	git push origin main;
+	git push origin main; \
 	git push origin $$version;

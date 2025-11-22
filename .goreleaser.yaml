@@ -109,7 +109,7 @@ changelog:
   use: github
   sort: asc
   abbrev: 7
-  format: '- {{ .Message }} by @{{ .AuthorUsername }} ({{ .SHA }})'
+  format: '{{ .Message }} by @{{ .AuthorUsername }} ({{ .SHA }})'
   filters:
     exclude:
       - '^chore\(release\):'

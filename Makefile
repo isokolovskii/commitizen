@@ -39,10 +39,12 @@ version:
 		exit 1; \
 	fi
 
-	version=$$(git cliff --bumped-version)
-	echo "Bumping to version $$version"
-	sed -i '' "s/const version = .*/const version = \"$$version\"/" internal/version/version.go
-	sed -i '' "s/go install github.com\/isokolovskii\/commitizen\.*/go install github.com\/isokolovskii\/commitizen\@v$$version/" README.md
-	git add internal/version/version.go README.md
-
-	git cliff --bump
+	@version=$$(git cliff --bumped-version 2>/dev/null); \
+	echo "Bumping to version $$version"; \
+	sed -i '' "s/version = .*/version = \"$$version\"/" internal/version/version.go; \
+	sed -i '' "s/go install github.com\/isokolovskii\/commitizen@.*/go install github.com\/isokolovskii\/commitizen@$$version/" README.md; \
+	git cliff --bump -o CHANGELOG.md; \
+	git add internal/version/version.go README.md CHANGELOG.md; \
+	git commit -m "chore(release): $$version"; \
+	git tag "$$version"; \
+	git push origin $$version;

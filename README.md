@@ -1,6 +1,8 @@
 Commitizen
 ----------
 
+[![codecov](https://codecov.io/github/isokolovskii/commitizen/graph/badge.svg?token=2ZDYRhKDly)](https://codecov.io/github/isokolovskii/commitizen)
+
 CLI prompt tool for creation of [Conventional Commits](https://www.conventionalcommits.org). No more pain with commits rejected by validation tools or digging through [CONTRIBUTING.md](CONTRIBUTING.md) to find preferred commit format.
 
 Based on wonderful work of [Commitizen](https://github.com/commitizen) with their [cz-cli](https://github.com/commitizen/cz-cli) which works like a charm in Node.js based projects.

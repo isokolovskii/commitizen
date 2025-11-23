@@ -1,7 +1,7 @@
 Commitizen
 ----------
 
-[![codecov](https://codecov.io/github/isokolovskii/commitizen/graph/badge.svg?token=2ZDYRhKDly)](https://codecov.io/github/isokolovskii/commitizen)
+[![codecov](https://codecov.io/github/isokolovskii/commitizen/graph/badge.svg?token=2ZDYRhKDly)](https://codecov.io/github/isokolovskii/commitizen) [![Lint](https://github.com/isokolovskii/commitizen/actions/workflows/lint.yml/badge.svg)](https://github.com/isokolovskii/commitizen/actions/workflows/lint.yml) [![Test](https://github.com/isokolovskii/commitizen/actions/workflows/test.yml/badge.svg)](https://github.com/isokolovskii/commitizen/actions/workflows/test.yml) [![CodeQL](https://github.com/isokolovskii/commitizen/actions/workflows/codeql.yml/badge.svg)](https://github.com/isokolovskii/commitizen/actions/workflows/codeql.yml)
 
 CLI prompt tool for creation of [Conventional Commits](https://www.conventionalcommits.org). No more pain with commits rejected by validation tools or digging through [CONTRIBUTING.md](CONTRIBUTING.md) to find preferred commit format.
 

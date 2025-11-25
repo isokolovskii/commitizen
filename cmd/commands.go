@@ -6,4 +6,5 @@ import (
 
 var commands = []*cli.Command{
 	version(),
+	commit(),
 }

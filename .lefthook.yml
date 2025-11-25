@@ -37,16 +37,15 @@ pre-commit:
               - go.sum
             stage_fixed: true
           - name: lint & format
-            run: golangci-lint run ./...
             glob: "*.go"
-            stage_fixed: true
-          - name: format markdown
-            glob: "*md"
-            run: go tool markdownfmt -w .
-            stage_fixed: true
-          - name: check release config
-            glob: ".goreleaser.yaml"
-            run: go tool goreleaser check
+            group:
+              parallel: false
+              jobs:
+                - name: format
+                  run: golangci-lint fmt ./...
+                  stage_fixed: true
+                - name: lint
+                  run: golangci-lint run ./...
 
 post-checkout:
   parallel: false

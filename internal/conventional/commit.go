@@ -6,13 +6,15 @@ type (
 	Commit struct {
 		// Type describes the kind of change (e.g., "feat", "fix", "docs").
 		Type string
-		// Type describes the kind of change (e.g., "feat", "fix", "docs").
+		// Scope is an optional context for the change (e.g., "api", "cli").
 		Scope string
 		// Title is a short description of the change.
 		Title string
 		// Body is an optional longer description.
 		Body string
-		// Footer is optional metadata (e.g., "BREAKING CHANGE:", issue refs).
-		Footer string
+		// Breaking change description.
+		BreakingChange string
+		// Issue number.
+		Issue string
 	}
 )

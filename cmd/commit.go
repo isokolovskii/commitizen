@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/urfave/cli/v3"
 
@@ -14,44 +13,71 @@ import (
 var ErrInvalidFlag = errors.New("invalid flag")
 
 func commit() *cli.Command {
-	var commitType string
-	var scope string
-	var title string
-	var body string
-	var footer string
+	commit := conventional.Commit{}
 
 	return &cli.Command{
 		Name:  "commit",
 		Usage: "Create Conventional Commit",
-		Flags: []cli.Flag{
-			&cli.StringFlag{Name: "type", OnlyOnce: true, Destination: &commitType},
-			&cli.StringFlag{Name: "scope", OnlyOnce: true, Destination: &scope},
-			&cli.StringFlag{Name: "title", OnlyOnce: true, Destination: &title},
-			&cli.StringFlag{Name: "body", OnlyOnce: true, Destination: &body},
-			&cli.StringFlag{Name: "footer", OnlyOnce: true, Destination: &footer},
-		},
+		Flags: flags(&commit),
 		Action: func(_ context.Context, _ *cli.Command) error {
-			if commitType == "" {
-				return fmt.Errorf("%w: commitType must be provided", ErrInvalidFlag)
-			}
-			if title == "" {
-				return fmt.Errorf("%w: title mus be provided", ErrInvalidFlag)
-			}
-
-			commit, err := conventional.BuildCommit(&conventional.Commit{
-				Type:   commitType,
-				Scope:  scope,
-				Title:  title,
-				Body:   body,
-				Footer: footer,
-			})
+			commit, err := conventional.BuildCommitMessage(&commit)
 			if err != nil {
 				return fmt.Errorf("error building commit: %w", err)
 			}
 
-			log.Println(commit)
+			_, err = fmt.Println(commit)
+			if err != nil {
+				return fmt.Errorf("error printing built commit message: %w", err)
+			}
 
 			return nil
+		},
+	}
+}
+
+func flags(commit *conventional.Commit) []cli.Flag {
+	return []cli.Flag{
+		&cli.StringFlag{
+			Name:        "type",
+			OnlyOnce:    true,
+			Destination: &commit.Type,
+			Required:    true,
+			Usage:       "Type of change (e.g., feat, fix, docs)",
+		},
+		&cli.StringFlag{
+			Name:        "scope",
+			OnlyOnce:    true,
+			Destination: &commit.Scope,
+			Required:    false,
+			Usage:       "Optional context for the change (e.g., api, cli)",
+		},
+		&cli.StringFlag{
+			Name:        "title",
+			OnlyOnce:    true,
+			Destination: &commit.Title,
+			Required:    true,
+			Usage:       "Short description of changes",
+		},
+		&cli.StringFlag{
+			Name:        "body",
+			OnlyOnce:    true,
+			Destination: &commit.Body,
+			Required:    false,
+			Usage:       "Optional longer description of the change",
+		},
+		&cli.StringFlag{
+			Name:        "breaking",
+			OnlyOnce:    true,
+			Destination: &commit.BreakingChange,
+			Required:    false,
+			Usage:       "Optional description of breaking changes introduced with commit",
+		},
+		&cli.StringFlag{
+			Name:        "issue",
+			OnlyOnce:    true,
+			Destination: &commit.Issue,
+			Required:    false,
+			Usage:       "Optional issue number",
 		},
 	}
 }

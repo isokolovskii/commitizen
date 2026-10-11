@@ -299,20 +299,20 @@ linters:
     gocyclo:
       min-complexity: 20
     godoclint:
-        default: none
-        enable:
-          - pkg-doc
-          - single-pkg-doc
-          - start-with-name
-          - deprecated
-          - max-len
-          - no-unused-link
-        options:
-          max-len:
-            length: 120
-          require-doc:
-            ignore-exported: false
-            ignore-unexported: true
+      default: none
+      enable:
+        - pkg-doc
+        - single-pkg-doc
+        - start-with-name
+        - deprecated
+        - max-len
+        - no-unused-link
+      options:
+        max-len:
+          length: 120
+        require-doc:
+          ignore-exported: false
+          ignore-unexported: true
           start-with-name:
             include-unexported: false
     godot:
@@ -704,6 +704,22 @@ linters:
       multi-func: false
     wrapcheck:
       report-internal-errors: true
+      # Terminal error translators returning cli.ExitCoder must not be wrapped
+      # again; urfave resolves the exit code through errors.As either way.
+      ignore-sigs:
+        - .Errorf
+        - .Wrap
+        - .Wrapf
+        - .WithMessage
+        - .WithMessagef
+        - .WithStack
+        - .WithStackf
+        - .WrapError
+        - .WrapErrorf
+        - .New
+        - .WithError
+        - .mapCommitError
+        - .mapInitError
   exclusions:
     generated: lax
     warn-unused: true

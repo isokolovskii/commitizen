@@ -67,5 +67,15 @@ func TestCheck(t *testing.T) {
 
 func TestVersion(t *testing.T) {
 	t.Parallel()
+	assert.Equal(t, version, Version())
+}
+
+func TestVersionWithCommit(t *testing.T) {
+	t.Parallel()
+
+	original := commit
+	t.Cleanup(func() { commit = original })
+	commit = "deadbeef"
+
 	assert.Equal(t, version+" "+commit, Version())
 }

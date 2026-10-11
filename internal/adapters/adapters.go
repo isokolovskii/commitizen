@@ -6,6 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"slices"
+
+	"github.com/isokolovskii/commitizen/internal/conventional"
+	"github.com/isokolovskii/commitizen/internal/prompts"
 )
 
 type (
@@ -17,6 +20,8 @@ type (
 		Description() string
 		// Example returns a sample commit message produced from default answers.
 		Example() (string, error)
+		// Prompt runs the interactive wizard and returns the generated commit.
+		Prompt(prompter prompts.Prompter) (*conventional.Commit, error)
 	}
 
 	// Registry resolves adapter names to instances.

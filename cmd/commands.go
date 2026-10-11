@@ -5,6 +5,9 @@ import (
 )
 
 var commands = []*cli.Command{
-	version(),
 	commit(),
+	initCommand(),
+	listCommand(),
+	exampleCommand(),
+	versionCommand(),
 }

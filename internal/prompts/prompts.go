@@ -8,6 +8,18 @@ import (
 )
 
 type (
+	// Prompter is the terminal interaction port used by adapters.
+	Prompter interface {
+		// Select asks the user to pick one of the options, returning its index.
+		Select(message string, options []Option, defaultIndex int) (int, error)
+		// Input asks for a single line answer, optionally validated.
+		Input(message, defaultValue string, validate func(string) error) (string, error)
+		// MultiLine asks for a multi line text answer.
+		MultiLine(message, defaultValue string) (string, error)
+		// Confirm asks a yes/no question with the given preselected answer.
+		Confirm(message string, preselected Default) (bool, error)
+	}
+
 	// Default conveys the preselected answer of a confirm prompt without
 	// using a bare bool parameter.
 	Default int
@@ -42,9 +54,13 @@ const (
 	DefaultYes
 )
 
-// ErrScriptExhausted is returned when a Scripted prompter is asked for
-// more answers than the script provides.
-var ErrScriptExhausted = errors.New("scripted prompter ran out of answers")
+var (
+	// ErrScriptExhausted is returned when a Scripted prompter is asked for
+	// more answers than the script provides.
+	ErrScriptExhausted = errors.New("scripted prompter ran out of answers")
+
+	_ Prompter = (*Scripted)(nil)
+)
 
 // Select returns the next scripted select answer and errors when answers run
 // out.

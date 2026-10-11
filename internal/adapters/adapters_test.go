@@ -7,6 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/isokolovskii/commitizen/internal/adapters"
+	"github.com/isokolovskii/commitizen/internal/conventional"
+	"github.com/isokolovskii/commitizen/internal/prompts"
 )
 
 type (
@@ -31,6 +33,10 @@ func (fake *fakeAdapter) Description() string {
 
 func (fake *fakeAdapter) Example() (string, error) {
 	return "feat: " + fake.name, nil
+}
+
+func (fake *fakeAdapter) Prompt(_ prompts.Prompter) (*conventional.Commit, error) {
+	return &conventional.Commit{}, nil
 }
 
 func newTestRegistry(t *testing.T) *adapters.Registry {

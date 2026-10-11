@@ -18,7 +18,12 @@ var (
 	ErrUncoveredVersion = errors.New("version is lower than required")
 )
 
+// Version reports the human readable version, optionally suffixed with the git commit injected at build time.
 func Version() string {
+	if commit == "" {
+		return version
+	}
+
 	return version + " " + commit
 }
 

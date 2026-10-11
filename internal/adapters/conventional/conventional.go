@@ -3,6 +3,7 @@
 package conventional
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/isokolovskii/commitizen/internal/adapters"
@@ -35,6 +36,10 @@ const (
 )
 
 var (
+	// ErrCommitCanceled is returned when the user declines the final confirmation.
+	ErrCommitCanceled = errors.New("commit canceled")
+	// ErrSubjectTooLong is returned when the subject exceeds the configured width.
+	ErrSubjectTooLong = errors.New("subject too long")
 	// BuiltinTypes mirrors the cz-conventional-changelog type list.
 	builtinTypes = []builtinType{
 		{value: featTypeValue, description: "A new feature"},

@@ -6,10 +6,10 @@ report_sizes: true
 before:
   hooks:
     - go mod tidy
-    - go generate ./...
 
 builds:
   - id: commitizen
+    binary: commitizen
     env:
       - CGO_ENABLED=0
     goos:
@@ -34,20 +34,64 @@ builds:
     flags:
       - -trimpath
     ldflags:
-      - -s -w -X github.com/isokolovskii/commitizen/internal/version.commit={{.Commit}}
+      - "-s -w -X github.com/isokolovskii/\
+        commitizen/internal/version.commit={{.Commit}}"
+
+  - id: git-cz
+    binary: git-cz
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+      - "386"
+    ignore:
+      - goos: darwin
+        goarch: "386"
+      - goos: linux
+        goarch: "386"
+      - goos: freebsd
+        goarch: "386"
+      - goos: openbsd
+        goarch: "386"
+    flags:
+      - -trimpath
+    ldflags:
+      - "-s -w -X github.com/isokolovskii/\
+        commitizen/internal/version.commit={{.Commit}}"
+
 archives:
-  - id: commitizen
+  - id: commitizen-bin
     formats: [binary]
     ids:
       - commitizen
-    files:
-      - none*
     name_template: >-
       {{ .ProjectName }}_
       {{- .Version }}_
       {{- if eq .Os "darwin" }}MacOS
       {{- else }}{{ title .Os }}{{ end }}_
       {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "arm64" }}aarch64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+
+  - id: git-cz-bin
+    formats: [binary]
+    ids:
+      - git-cz
+    name_template: >-
+      git-cz_
+      {{- .Version }}_
+      {{- if eq .Os "darwin" }}MacOS
+      {{- else }}{{ title .Os }}{{ end }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "arm64" }}aarch64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
 
@@ -56,21 +100,6 @@ archives:
     ids:
       - commitizen
     files:
-    - none*
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- .Version }}_
-      {{- if eq .Os "darwin" }}MacOS
-      {{- else }}{{ title .Os }}{{ end }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-
-  - id: commitizen-linux-aarch64
-    formats: [binary]
-    ids:
-      - commitizen-linux-aarch64
-    files:
       - none*
     name_template: >-
       {{ .ProjectName }}_
@@ -78,24 +107,24 @@ archives:
       {{- if eq .Os "darwin" }}MacOS
       {{- else }}{{ title .Os }}{{ end }}_
       {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
       {{- else if eq .Arch "arm64" }}aarch64
+      {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
 
-  - id: commitizen-linux-aarch64-gz
+  - id: git-cz-gz
     formats: [gz]
     ids:
-      - commitizen-linux-aarch64
+      - git-cz
     files:
       - none*
     name_template: >-
-      {{ .ProjectName }}_
+      git-cz_
       {{- .Version }}_
       {{- if eq .Os "darwin" }}MacOS
       {{- else }}{{ title .Os }}{{ end }}_
       {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
       {{- else if eq .Arch "arm64" }}aarch64
+      {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
 
 checksum:

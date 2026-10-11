@@ -12,10 +12,17 @@ This project replicated **cz-cli** way of work for Go projects
 Installation
 ------------
 
+Download a prebuilt binary from the [releases page](https://github.com/isokolovskii/commitizen/releases) — every release ships `commitizen` and `git-cz` for Linux, macOS, Windows, FreeBSD and OpenBSD on amd64 and arm64, for example:
+
+```text
+commitizen_v1.0.0_MacOS_x86_64
+git-cz_v1.0.0_Linux_aarch64.gz
+```
+
 With **Go** (>= 1.25):
 
 ```bash
-go install github.com/isokolovskii/commitizen@1.0.0
+go install github.com/isokolovskii/commitizen@latest
 ```
 
 -	or as a go tool
@@ -34,6 +41,8 @@ commitizen
 ```
 
 The wizard asks for a commit type, optional scope, subject, optional body, breaking changes, closing issues and a final confirmation, then runs `git commit` with the resulting message. `commitizen` is also the default command, so plain `commitizen` behaves the same way.
+
+The releases also ship a `git-cz` binary: drop it on your `PATH` and the wizard is available as `git cz`, just like the original Node.js tool.
 
 Using the command line tool
 ---------------------------
@@ -86,6 +95,23 @@ prepare-commit-msg:
 ```
 
 The `exec < /dev/tty` trick hands the terminal back to the wizard, because git hooks run without a TTY by default.
+
+Development
+-----------
+
+The Makefile drives the whole toolchain through `go tool`, so no global installs are needed:
+
+```bash
+make build   # compile the commitizen binary
+make test    # run the suite with the race detector
+make lint    # golangci-lint fmt + run
+```
+
+Release artifacts are built with [goreleaser](https://goreleaser.com); a dry run against your current tree works without a tag:
+
+```bash
+go tool goreleaser release --snapshot --skip=publish --skip=validate --clean
+```
 
 Authors and Contributors
 ------------------------

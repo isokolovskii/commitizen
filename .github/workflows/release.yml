@@ -27,14 +27,6 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v2
-
-      - name: Prevent from snapcraft fail
-        run: |
-          mkdir -p $HOME/.cache/snapcraft/download
-          mkdir -p $HOME/.cache/snapcraft/stage-packages
-
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -43,7 +35,6 @@ jobs:
           args: release --clean --verbose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
 
       - name: Generate artifact attestations
         uses: actions/attest-build-provenance@v3

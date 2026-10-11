@@ -19,12 +19,14 @@ jobs:
         with:
           go-version-file: go.mod
       - name: Test
-        run: go tool gotestsum --junitfile junit.xml -- -coverprofile coverage.txt ./...
+        run: >-
+          go tool gotestsum --junitfile junit.xml --
+          -coverprofile coverage.txt ./...
       - name: Report coverage
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          name: ${{ join(matrix.*, ' ') }}
+          name: ${{ matrix.os }}
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
@@ -44,10 +46,14 @@ jobs:
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
-          version: '~> v2'
-          args: release --snapshot --skip=publish --skip=snapcraft --skip=validate --clean --verbose
+          version: 'v2.10.2'
+          args: >-
+            release --snapshot --skip=publish --skip=validate
+            --clean --verbose
       - name: Tar binaries to preserve executable bit
-        run: 'tar -cvf commitizen-binaries.tar --directory dist/ $(find dist/ -executable -type f -printf "%P\0" | xargs --null)'
+        run: |
+          find dist/ -type f -executable -print0 |
+            xargs -0 tar -cf commitizen-binaries.tar -C dist/
       - name: Upload binaries as artifacts
         uses: actions/upload-artifact@v4
         with:

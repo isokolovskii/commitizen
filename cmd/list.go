@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/urfave/cli/v3"
 
@@ -15,8 +14,8 @@ func listCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "ls",
 		Usage: "list the built-in adapters",
-		Action: func(_ context.Context, _ *cli.Command) error {
-			err := runList(os.Stdout)
+		Action: func(_ context.Context, cmd *cli.Command) error {
+			err := runList(cmd.Root().Writer)
 			if err != nil {
 				return fmt.Errorf("running ls command: %w", err)
 			}

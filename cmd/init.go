@@ -54,7 +54,7 @@ func initCommand() *cli.Command {
 				name = config.DefaultAdapter
 			}
 
-			deps := &InitDeps{Stdout: os.Stdout, Dir: "."}
+			deps := &InitDeps{Stdout: cmd.Root().Writer, Dir: "."}
 
 			err := runInit(deps, name, cmd.Bool(forceFlag))
 			if err != nil {

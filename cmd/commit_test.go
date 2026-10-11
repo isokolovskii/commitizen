@@ -39,8 +39,17 @@ const (
 	testSubject      = "add feature"
 	testFlagsTitle   = "patch bug"
 	testFixType      = "fix"
+	testFeatType     = "feat"
 	testFlagsMessage = "fix: patch bug\n"
 	testShortMessage = "fix: patch bug"
+
+	testTypeFlag    = "--type"
+	testDrySubject  = "dry subject"
+	testDryMessage  = "fix: " + testDrySubject
+	testAdapterLine = "conventional - Conventional Commits wizard"
+
+	testInitializedOutput = "Initialized"
+	testGitNoSystem       = "GIT_CONFIG_NOSYSTEM=1"
 )
 
 var _ git.Runner = (*fakeRunner)(nil)
@@ -172,7 +181,13 @@ func TestRunCommitRetryReplaysCachedCommit(t *testing.T) {
 
 	runner := &fakeRunner{}
 	deps := newCommitDeps(t, runner, &prompts.Scripted{}, t.TempDir())
-	cached := &stdconventional.Commit{Type: "feat", Scope: "api", Title: testSubject, Body: testBody, Issue: testIssue}
+	cached := &stdconventional.Commit{
+		Type:  testFeatType,
+		Scope: testScope,
+		Title: testSubject,
+		Body:  testBody,
+		Issue: testIssue,
+	}
 	err := retry.NewStore(deps.CacheDir).Save(testRoot, cached)
 	require.NoError(t, err)
 

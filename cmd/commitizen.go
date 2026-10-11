@@ -13,7 +13,7 @@ func New() *cli.Command {
 		Usage:                 "Conventional Commits prompt generator",
 		Version:               ver.Version(),
 		DefaultCommand:        commitCommand,
-		Commands:              commands,
+		Commands:              commandSet(),
 		EnableShellCompletion: true,
 	}
 }

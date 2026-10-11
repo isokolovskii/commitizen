@@ -15,81 +15,90 @@ type (
 	}
 )
 
+const (
+	testTitle    = "some changes"
+	testType     = "feat"
+	testScope    = "api"
+	testBody     = "Changes description"
+	testIssue    = "TEST-1"
+	testBreaking = "Something breaking"
+)
+
 var buildCommitMessageTestCases = []testCases{
 	{
 		result: "feat(api): some changes\n\nChanges description\n",
 		commitData: &Commit{
-			Title: "some changes",
-			Type:  "feat",
-			Scope: "api",
-			Body:  "Changes description",
+			Title: testTitle,
+			Type:  testType,
+			Scope: testScope,
+			Body:  testBody,
 		},
 		err: nil,
 	},
 	{
 		result: "feat(api): some changes\n",
 		commitData: &Commit{
-			Title: "some changes",
-			Type:  "feat",
-			Scope: "api",
+			Title: testTitle,
+			Type:  testType,
+			Scope: testScope,
 		},
 		err: nil,
 	},
 	{
 		result: "feat: some changes\n\nChanges description\n",
 		commitData: &Commit{
-			Title: "some changes",
-			Type:  "feat",
-			Body:  "Changes description",
+			Title: testTitle,
+			Type:  testType,
+			Body:  testBody,
 		},
 		err: nil,
 	},
 	{
 		result: "feat(api): some changes\n\nChanges description\n\nIssue: TEST-1\n",
 		commitData: &Commit{
-			Title: "some changes",
-			Type:  "feat",
-			Scope: "api",
-			Body:  "Changes description",
-			Issue: "TEST-1",
+			Title: testTitle,
+			Type:  testType,
+			Scope: testScope,
+			Body:  testBody,
+			Issue: testIssue,
 		},
 		err: nil,
 	},
 	{
 		result: "feat(api)!: some changes\n\nChanges description\n\nBREAKING CHANGE: Something breaking\nIssue: TEST-1\n",
 		commitData: &Commit{
-			Title:          "some changes",
-			Type:           "feat",
-			Scope:          "api",
-			Body:           "Changes description",
-			Issue:          "TEST-1",
-			BreakingChange: "Something breaking",
+			Title:          testTitle,
+			Type:           testType,
+			Scope:          testScope,
+			Body:           testBody,
+			Issue:          testIssue,
+			BreakingChange: testBreaking,
 		},
 		err: nil,
 	},
 	{
 		result: "feat!: some changes\n\nChanges description\n\nBREAKING CHANGE: Something breaking\n",
 		commitData: &Commit{
-			Title:          "some changes",
-			Type:           "feat",
-			Body:           "Changes description",
-			BreakingChange: "Something breaking",
+			Title:          testTitle,
+			Type:           testType,
+			Body:           testBody,
+			BreakingChange: testBreaking,
 		},
 		err: nil,
 	},
 	{
 		result: "",
 		commitData: &Commit{
-			Type: "feat",
-			Body: "Changes description",
+			Type: testType,
+			Body: testBody,
 		},
 		err: ErrRequiredPartNotPreset,
 	},
 	{
 		result: "",
 		commitData: &Commit{
-			Title: "some changes",
-			Body:  "Changes description",
+			Title: testTitle,
+			Body:  testBody,
 		},
 		err: ErrRequiredPartNotPreset,
 	},

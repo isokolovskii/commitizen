@@ -9,19 +9,22 @@ import (
 
 func TestCheck(t *testing.T) {
 	t.Parallel()
+
+	const testNextVersion = "1.0.1"
+
 	for i, tt := range [...]struct {
 		err    error
 		wanted string
 		given  string
 	}{
 		{
-			wanted: "1.0.0",
-			given:  "1.0.1",
+			wanted: version,
+			given:  testNextVersion,
 			err:    nil,
 		},
 		{
-			wanted: "v1.0.0",
-			given:  "1.0.1",
+			wanted: "v" + version,
+			given:  testNextVersion,
 			err:    nil,
 		},
 		{
